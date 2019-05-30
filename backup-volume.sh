@@ -1,5 +1,6 @@
 #!/bin/sh
 # Copies the contents of a Docker volume to the destination path.
+# Requires jq to be installed.
 
 MESSAGE="$ ./backup-volume.sh docker-volume-name /path/to/backup/dir"
 VOLUME_NAME=$1

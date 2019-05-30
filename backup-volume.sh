@@ -1,6 +1,5 @@
 #!/bin/sh
 # Copies the contents of a Docker volume to the destination path.
-# Requires jq to be installed.
 
 MESSAGE="$ ./backup-volume.sh docker-volume-name /path/to/backup/dir"
 VOLUME_NAME=$1
@@ -23,12 +22,7 @@ fi
 echo "Backing up volume ${VOLUME_NAME}"
 echo "Writing to ${DEST_PATH}"
 
-# Get mountpoint path
-docker volume inspect ${VOLUME_NAME} > volume.txt
-MOUNTPOINT="$(jq -r '.[] | .Mountpoint' volume.txt)"
-rm volume.txt
-
-# Copy
+MOUNTPOINT=$(docker volume inspect --format "{{ .Mountpoint }}" "${VOLUME_NAME}")
 sudo cp -r ${MOUNTPOINT} ${DEST_PATH}
 
 echo "Finished backing up volume ${VOLUME_NAME}"
